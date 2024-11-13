@@ -1,6 +1,6 @@
 {% filter trim | remove_extra_newlines %}
 
-{{ "{{ policy_options }}" }}
+{% raw %}{{ policy_options }}{% endraw %}
 
 {# configuring interfaces #}
 
