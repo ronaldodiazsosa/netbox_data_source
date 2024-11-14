@@ -1,5 +1,11 @@
 {% filter trim | remove_extra_newlines %}
 
+{# Base Configuration #}
+{% for line in configs_chassis %}
+{{ line }}
+{% endfor %}}
+
+
 {# configuring interfaces #}
 
 {% for interface in device.interfaces.all() %}
