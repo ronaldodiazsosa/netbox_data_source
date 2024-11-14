@@ -8,14 +8,6 @@
 
 {# Services Configuration #}
 
-{% for service in ("ipam.Device", {"name": "boslab-202-cr-1002"}) | get_extra_data %}
-{{service.primary_ip4}}
-{% endfor %}
-{% for dns in dns_servers %}
-set system name-server {{ dns }}
-{% endfor %}
-
-
 {% for service in ("ipam.Service", {"tags": 8}) | get_extra_data %}
 
 {% if 53 in service.ports %}
