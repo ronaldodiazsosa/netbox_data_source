@@ -141,7 +141,7 @@ set interfaces {{interface.name }} vlan-id {{ interface_unit_list[1] }}
 
 {# configure mtu id #}
 {% if interface.mtu %}
-set interfaces {{ interface.name }} mtu {{ interface.mtu }}
+set interfaces {{ interface.name }} family inet mtu {{ interface.mtu }}
 {%   endif %}
 
 {# Configure ip addresses #}
