@@ -1,7 +1,7 @@
 {% block base %}
 
 {# base template #}
-
+set system host-name {{ device.name }}
 {% for rule in base_system_configuration_context %}
 {{ rule }}
 {% endfor %}
