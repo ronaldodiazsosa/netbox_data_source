@@ -2,6 +2,8 @@
 
 {# firewall template #}
 
+{$ for rule in base_firewall_configuration $}
 {{ base_firewall_configuration }}
+{$ endfor %}
 
 {% endblock %}
