@@ -1,3 +1,4 @@
+#!/opt/netbox/venv/bin/python
 import sys
 import os
 import argparse
