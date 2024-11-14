@@ -6,7 +6,7 @@
 {% endfor %}
 
 
-{% Services Configuration %}
+{# Services Configuration #}
 
 {% for service in ("ipam.Device", {"name": "boslab-202-cr-1002"}) | get_extra_data %}
 {{service.primary_ip4}}
