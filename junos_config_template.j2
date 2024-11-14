@@ -2,6 +2,9 @@
 
 {% raw %}{{ policy_options }}{% endraw %}
 
+
+{{ "{{ firewall }}" }}
+
 {# configuring interfaces #}
 
 {% for interface in device.interfaces.all() %}
