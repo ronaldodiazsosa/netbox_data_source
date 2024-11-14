@@ -186,9 +186,7 @@ set interfaces {{interface.name }} unit 0 family inet filter input CORERO-MITIGA
 {% endif %}
 {% endfor %}
 
-{% for policy in base_policy %}
-{{ policy }}
-{% endfor %}
+{% include 'base_firewall.j2' %}
 
 
 {# configuring ospf #}
