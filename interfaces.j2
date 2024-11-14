@@ -1,0 +1,138 @@
+{% block interfaces %}
+
+{# configuring interfaces #}
+
+{% for interface in device.interfaces.all() %}
+{# configuring physical interfaces  #}
+{% if not interface.parent and interface.type.value != "virtual"  %}
+
+{# configure physical interface description #}
+{% if interface.description %}
+set interfaces {{ interface.name }} description "{{ interface.description }}"
+{% endif %}
+
+{# disable interface if not enabled #}
+{% if not interface.enabled %}
+set interfaces {{ interface.name }} disable
+{% endif -%}
+
+{# configure physical interface gigether_options #}
+{% if interface.lag %}
+set interfaces {{ interface.name }} gigether-options 802.3ad {{ interface.lag.name }}
+{% endif %}
+
+{# configure lag interface #}
+{% if interface.type.value == "lag" %}
+set interfaces {{ interface.name }} aggregated-ether-options lacp active
+{% endif %}
+
+{# Speed configuration: convert Kbps to Gbps #}
+{% if interface.speed %}
+{% set speed_g = interface.speed // 1000000 %}
+{% if ':' in interface.name %}
+set interfaces {{ interface.name }} gigether-options auto-negotiation
+set interfaces {{ interface.name }} gigether-options speed {{ speed_g }}g
+{% elif 'ae' in interface.name %}
+set interfaces {{ interface.name }} aggregated-ether-options link-speed {{ speed_g }}g
+{% else %}
+set interfaces {{ interface.name }} speed {{ speed_g }}g
+{% endif %}
+{% endif %}
+
+{# mtu configuration}
+{% if interface.mtu %}
+set interfaces {{ interface.name }} mtu {{ interface.mtu }}
+{%   endif %}
+
+{# configure physical interface flexible vlan tagging #}
+{%   if interface.mode.value == "tagged" %}
+set interfaces {{ interface.name }} flexible-vlan-tagging
+set interfaces {{ interface.name }} encapsulation flexible-ethernet-services
+{%   endif %}
+
+{% set traceoptions_tag = interface.tags.all() | selectattr('name', 'equalto', 'Traceoptions') | list | length > 0 %}
+{%   if traceoptions_tag %}
+set interfaces {{ interface.name }} traceoptions flag all
+{%  endif %}
+
+{% set sampling_ipv4 = interface.tags.all() | selectattr('name', 'equalto', 'sampling_ipv4') | list | length > 0 %}
+{%   if sampling_ipv4 %}
+set interfaces {{interface.name }} family inet sampling input
+{%  endif %}
+{% set sampling_ipv6 = interface.tags.all() | selectattr('name', 'equalto', 'sampling_ipv6') | list | length > 0 %}
+{%   if sampling_ipv6 %}
+set interfaces {{interface.name }} family inet6 sampling input
+{%  endif %}
+{% set mpls_tag = interface.tags.all() | selectattr('name', 'equalto', 'MPLS') | list | length > 0 %}
+{%   if mpls_tag %}
+set interfaces {{interface.name }} family mpls
+{%  endif %}
+{% endif %}
+
+{# configure virtual interfaces #}
+{% if interface.parent or interface.type.value == "virtual" %}
+{% set interface_unit_list = interface.name.split('.') %}
+
+
+{# configure logical interface description #}
+{% if interface.description %}
+set interfaces {{ interface.name }} description "{{ interface.description }}"
+{% endif %}
+{# disable interface if not enabled #}
+{% if not interface.enabled %}
+set interfaces {{ interface.name }} disable
+{% endif -%}
+
+{# configure vlan id #}
+{% if interface_unit_list[1] != '0' and interface.type.value != "virtual" %}
+set interfaces {{interface.name }} vlan-id {{ interface_unit_list[1] }}
+{%     endif %}
+
+{# configure mtu id #}
+{% if interface.mtu %}
+set interfaces {{ interface.name }} family inet mtu {{ interface.mtu }}
+{%   endif %}
+
+{# Configure ip addresses #}
+{% for ip_address in interface.ip_addresses.all() %}
+{% if ip_address.family == 4 %}
+{% if ip_address.is_primary_ip %}
+set interfaces {{ interface.name }} family inet address {{ ip_address.address }} primary
+{% else %}
+set interfaces {{ interface.name }} family inet address {{ ip_address.address }}
+{% endif %}
+
+{% elif ip_address.family == 6 %}
+set interfaces {{ interface.name }} family inet6 address {{ ip_address.address }}
+{% endif %}
+
+{% endfor %}
+
+{# configure interface mpls family protocols #}
+
+{% set mpls_tag = interface.tags.all() | selectattr('name', 'equalto', 'MPLS') | list | length > 0 %}
+{%   if mpls_tag %}
+set interfaces {{interface.name }} family mpls
+{%  endif %}
+
+
+{% set sampling_ipv4 = interface.tags.all() | selectattr('name', 'equalto', 'sampling_ipv4') | list | length > 0 %}
+{%   if sampling_ipv4 %}
+set interfaces {{interface.name }} family inet sampling input
+{%  endif %}
+{% set sampling_ipv6 = interface.tags.all() | selectattr('name', 'equalto', 'sampling_ipv6') | list | length > 0 %}
+{%   if sampling_ipv6 %}
+set interfaces {{interface.name }} family inet6 sampling input
+{%  endif %}
+
+{# configure extra attributes #}
+{% set corero_tag = interface.tags.all() | selectattr('name', 'equalto', 'Corero') | list | length > 0 %}
+{%   if corero_tag %}
+set interfaces {{interface.name }} unit 0 family inet filter input CORERO-MITIGATE
+{%  endif %}
+
+
+{% endif %}
+{% endfor %}
+
+{% endblock %}

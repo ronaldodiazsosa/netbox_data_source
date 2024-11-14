@@ -1,0 +1,49 @@
+{% block services %}
+
+{# Services template #}
+
+set system services ssh sftp-server
+set system services telnet
+set system services netconf ssh port 830
+
+{% for service in ("ipam.Service", {"tags": 8}) | get_extra_data %}
+
+{% if 53 in service.ports %}
+{% for ip in service.ipaddresses.all() %}
+set system name-server {{ (ip.address | string).split('/')[0] }} routing-instance mgmt_junos
+{% endfor %}
+{% endif %}
+
+{% if 49 in service.ports %}
+{% for ip in service.ipaddresses.all() %}
+set system tacplus-server {{ (ip.address | string).split('/')[0] }} routing-instance mgmt_junos
+set system tacplus-server {{ (ip.address | string).split('/')[0] }} port 49
+set system tacplus-server {{ (ip.address | string).split('/')[0] }} secret "$9$UwHPQ/Cu01hqmORSlW8XxNdVs4aGUi.vWLNVbaJjHq"
+set system tacplus-server {{ (ip.address | string).split('/')[0] }} source-address {{ (device.primary_ip.address | string).split('/')[0] }}
+{% endfor %}
+{% endif %}
+
+{% if 514 in service.ports %}
+{% for ip in service.ipaddresses.all() %}
+set system syslog user * any emergency
+set system syslog host {{ (ip.address | string).split('/')[0] }} any warning
+set system syslog host {{ (ip.address | string).split('/')[0] }} daemon notice
+set system syslog host {{ (ip.address | string).split('/')[0] }} change-log info
+set system syslog host {{ (ip.address | string).split('/')[0] }} interactive-commands notice
+set system syslog host {{ (ip.address | string).split('/')[0] }} match "!(.*DAEMON-5-UI_OPEN_TIMEOUT.*|.*AUTH-3: error: Received disconnect.*|.*DAEMON-4.*sshd.*255.*)"
+set system syslog host {{ (ip.address | string).split('/')[0] }} facility-override local0
+set system syslog host {{ (ip.address | string).split('/')[0] }} log-prefix {{ device.name }}
+set system syslog host {{ (ip.address | string).split('/')[0] }} source-address {{ (device.primary_ip.address | string).split('/')[0] }}
+set system syslog host {{ (ip.address | string).split('/')[0] }} routing-instance mgmt_junos
+set system syslog host {{ (ip.address | string).split('/')[0] }} explicit-priority
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system syslog time-format year
+set system syslog time-format millisecond
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+
+{% endblock %}

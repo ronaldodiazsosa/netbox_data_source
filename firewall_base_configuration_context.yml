@@ -1,4 +1,4 @@
-base_firewall_configuration:
+firewall_base_configuration_context:
   - set firewall family inet prefix-action management-police-set apply-flags omit
   - set firewall family inet prefix-action management-police-set policer management-10k
   - set firewall family inet prefix-action management-police-set count

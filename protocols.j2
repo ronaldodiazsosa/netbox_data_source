@@ -1,0 +1,114 @@
+{% block protocols %}
+
+{# configuring ospf #}
+
+set protocols ospf reference-bandwidth 10g
+set protocols ospf traffic-engineering ignore-lsp-metrics
+{% for interface in device.interfaces.all() %}
+{% if interface.custom_field_data['protocols'] and 'ospf' in interface.custom_field_data['protocols'] %}
+{% for key, ospf_parameter in interface.custom_field_data['ospf_parameters'].items() %}
+
+{% if key == 'passive' and ospf_parameter %}
+set protocols ospf area 0.0.0.0 interface {{ interface.name }} passive
+{% endif %}
+
+{% if key == 'link_protection' and ospf_parameter %}
+set protocols ospf area 0.0.0.0 interface {{ interface.name }} link-protection
+{% endif %}
+
+{% if key == 'metric' %}
+set protocols ospf area 0.0.0.0 interface {{ interface.name }} metric {{ ospf_parameter }}
+{% endif %}
+
+{% if key == 'bfd_liveness_detection' %}
+set protocols ospf area 0.0.0.0 interface {{ interface.name }} bfd-liveness-detection minimum-interval {{ ospf_parameter.multiplier }}
+set protocols ospf area 0.0.0.0 interface {{ interface.name }} bfd-liveness-detection multiplier {{ ospf_parameter.minimum_interval }}
+{% endif %}
+
+{% if key == 'interface_type' %}
+set protocols ospf area 0.0.0.0 interface {{ interface.name }} interface-type {{ ospf_parameter }}
+{% endif %}
+
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+{# Configure BGP #}
+set protocols bgp log-updown
+set protocols bgp bgp-error-tolerance
+
+
+{% for bgp_session in ("netbox_bgp.BGPSession", {"device": device.id }) | get_extra_data %}
+
+{# configure neighbor description #}
+
+{% if bgp_session.description %}
+set protocols bgp group {{ bgp_session.peer_group.name }} neighbor {{ (bgp_session.remote_address.address | string).split('/')[0] }} description "{{ bgp_session.description }}"
+{% endif %}
+
+
+{# configure neighbor export and import  #}
+
+{% if bgp_session.export_policies %}
+{% for export_policy in bgp_session.export_policies.all() %}
+set protocols bgp group {{ bgp_session.peer_group.name }} neighbor {{ (bgp_session.remote_address.address | string).split('/')[0] }} export {{ export_policy.name }}
+{% endfor %}
+{% endif %}
+
+{% if bgp_session.import_policies %}
+{% for import_policy in bgp_session.import_policies.all() %}
+set protocols bgp group {{ bgp_session.peer_group.name }} neighbor {{ (bgp_session.remote_address.address | string).split('/')[0] }} import {{ import_policy.name }}
+{% endfor %}
+{% endif %}
+
+{# configure group paramaters #}
+
+{# configure export policies #}
+{% if bgp_session.peer_group.export_policies %}
+{% for policy in bgp_session.peer_group.export_policies.all() %}
+set protocols bgp group {{ bgp_session.peer_group.name }} export {{ policy.name }}
+{% endfor %} 
+{% endif %}
+
+{# configure import policies #}
+{% if bgp_session.peer_group.import_policies %}
+{% for policy in bgp_session.peer_group.import_policies.all() %}
+set protocols bgp group {{ bgp_session.peer_group.name }} import {{ policy.name }}
+{% endfor %} 
+{% endif %}
+
+
+{# configure custom group paramaters #}
+
+{% for key, bgp_parameter in bgp_session.peer_group.custom_field_data['bgp_group_parameters'].items() %}
+
+{% if key == 'type' %}
+set protocols bgp group {{ bgp_session.peer_group.name }} type {{ bgp_parameter }}
+{% endif %}
+
+{% if key == 'description' %}  
+set protocols bgp group {{ bgp_session.peer_group.name }} description "{{ bgp_parameter }}"
+{% endif %}
+
+{% if key == 'mtu_discovery' %}
+set protocols bgp group {{ bgp_session.peer_group.name }} mtu-discovery
+{% endif %}
+
+{% if key == 'family' %}
+{% for family_item in bgp_parameter %}
+
+set protocols bgp group {{ bgp_session.peer_group.name }} family {{ family_item.type }}
+{% if family_item.parameters is defined %}
+{% for parameter in family_item.parameters %}
+set protocols bgp group {{ bgp_session.peer_group.name }} family {{ family_item.type }} {{ parameter }}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
+
+{% endfor %}
+{% endfor %}
+
+{% endblock %}

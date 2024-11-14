@@ -2,7 +2,7 @@
 
 {# firewall template #}
 
-{% for rule in base_firewall_configuration %}
+{% for rule in firewall_base_configuration_context %}
 {{ rule }}
 {% endfor %}
 
