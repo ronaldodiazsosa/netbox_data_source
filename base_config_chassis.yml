@@ -1,0 +1,18 @@
+configs_chassis:
+  - set chassis aggregated-devices ethernet device-count 10
+  - set chassis fpc 0 pic 0 tunnel-services bandwidth 10g
+  - set chassis fpc 0 pic 0 port 0 speed 100g
+  - set chassis fpc 0 pic 0 port 1 speed 100g
+  - set chassis fpc 0 pic 0 port 2 speed 10g
+  - set chassis fpc 0 pic 0 port 3 speed 10g
+  - set chassis fpc 0 pic 1 port 0 speed 10g
+  - set chassis fpc 0 pic 1 port 1 speed 10g
+  - set chassis fpc 0 pic 1 port 2 speed 10g
+  - set chassis fpc 0 pic 1 port 3 speed 10g
+  - set chassis fpc 0 pic 1 port 4 speed 10g
+  - set chassis fpc 0 pic 1 port 5 speed 10g
+  - set chassis fpc 0 pic 1 port 6 speed 10g
+  - set chassis fpc 0 pic 1 port 7 speed 10g
+  - set chassis fpc 0 sampling-instance s1
+  - set chassis fpc 0 inline-services flow-table-size ipv4-flow-table-size 15
+  - set chassis network-services enhanced-ip

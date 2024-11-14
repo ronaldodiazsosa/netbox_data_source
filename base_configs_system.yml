@@ -1,0 +1,50 @@
+configs_system:
+  - set system root-authentication encrypted-password "$6$q4EHpxRq$pnU82U4mIxWLKcx3LdONwbPQ2Bbf5UAK9o.uqdHL7xroxWdZPOMblQ/QJEQRgy/0LPzgjps7J1R1aZTJZ7y.z/"
+  - set system login class rancid permissions access
+  - set system login class rancid permissions admin
+  - set system login class rancid permissions firewall
+  - set system login class rancid permissions flow-tap
+  - set system login class rancid permissions interface
+  - set system login class rancid permissions network
+  - set system login class rancid permissions routing
+  - set system login class rancid permissions secret
+  - set system login class rancid permissions security
+  - set system login class rancid permissions snmp
+  - set system login class rancid permissions storage
+  - set system login class rancid permissions system
+  - set system login class rancid permissions trace
+  - set system login class rancid permissions view
+  - set system login class rancid permissions view-configuration
+  - set system login user RO uid 3001
+  - set system login user RO class operator
+  - set system login user labuser uid 2014
+  - set system login user labuser class super-user
+  - set system login user labuser authentication encrypted-password "$6$w4euHvId$xj9LDDh2qnMqXDkuwBjXpBhpTwuf5rvKUuFaO6QzAP0J5.GOj38U3SQl0Q4ebhxoP3t70NRFqfQpI9m/HpnST1"
+  - set system login user labuser authentication ssh-rsa "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDE3GrRKSOk/Sy+o5Xx8CW1gEzoHWNL+FAAZhYZ LbrVygqmt+i89ZfOqJBzzWH/PPYwTMubpxLaNNrNhsxo0HQNGbFpPvmgD1YZfIdhARxvJN7kn6Qa tZaTdKvNeHUVqkd0Cl5H/OeJrX8vhIOhIzHeLEc42vIskSqIcPL7Pwg7ut6IkSGxmNttvXySQsVs 9z6PC7kfDfaOZvYHchIgdZebTWWPTkOLbMnjD6qMJHqTOzHETGlblZdj6gv9HISuWx33zhkAiRl3 /4S6tVnNysfIzO357G0GtHW2HBpX5fmSBxfsEsd1bya0nl/qEFFba6upzJ+4vlEwvTm5JzT3tRdx"
+  - set system login user napalm uid 2008
+  - set system login user napalm class super-user
+  - set system login user napalm authentication encrypted-password "$6$H.VPnCMk$ctGEtioGMRMkbgHz.NZWL6domi13MaTtVV89vwfqtqeMV8ZdUFP/ztGJmbKks.5UxoyJ7ve1a/5/QIJ3Uuxxi1"
+  - set system login user notacacs uid 2011
+  - set system login user notacacs class super-user
+  - set system login user notacacs authentication encrypted-password "$6$LgwIXcHY$yRSzgxpuWi9G.WcXO5eY/7sVB42rIgknKN03BPcJuf7w8i6AuoOQiP6yicNaVrvb80Iu6Hbxc7tTN5o0ahgPN0"
+  - set system login user oxidized uid 2012
+  - set system login user oxidized class read-only
+  - set system login user oxidized authentication encrypted-password "$6$5m3Qb5XP$OVD076APYLadGi8qIkzagCdtUbnmsgf3prL7cXhQ2U86EVFhAS68gYHUOJg.sud9klDXv5e9dTKRsBzyn6uTm1"
+  - set system login user remote uid 3000
+  - set system login user remote class super-user
+  - set system login user svc.oxidized uid 2016
+  - set system login user svc.oxidized class super-user
+  - set system login user svc.oxidized authentication encrypted-password "$5$FuXqqAdX$FK27UKSy59q.Dwc6BXlEn6J/GdWWP5aWLM6X2XIm9K."
+  - set system services ssh sftp-server
+  - set system services telnet
+  - set system services netconf ssh port 830
+  - set system domain-name boslab.mgmt.rakops.com
+  - set system time-zone utc
+  - set system no-redirects
+  - set system no-redirects-ipv6
+  - set system management-instance
+  - set system internet-options path-mtu-discovery
+  - set system internet-options tcp-drop-synfin-set
+  - set system internet-options no-tcp-reset drop-all-tcp
+  - set system authentication-order tacplus
+  - set system authentication-order password
