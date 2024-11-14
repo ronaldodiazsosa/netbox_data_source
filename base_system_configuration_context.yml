@@ -1,4 +1,4 @@
-configs_base:
+base_system_configuration_context:
   - set system root-authentication encrypted-password "$6$q4EHpxRq$pnU82U4mIxWLKcx3LdONwbPQ2Bbf5UAK9o.uqdHL7xroxWdZPOMblQ/QJEQRgy/0LPzgjps7J1R1aZTJZ7y.z/"
   - set system login class rancid permissions access
   - set system login class rancid permissions admin
