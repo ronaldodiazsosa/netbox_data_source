@@ -12,7 +12,7 @@
 
 {% if 53 in service.ports %}
 {% for ip in service.ipaddresses.all() %}
-set system name-server {{ (ip.address | string).split('/')[0] }} routing-instance mgmt
+set system name-server {{ (ip.address | string).split('/')[0] }} routing-instance mgmt_junos
 {% endfor %}
 {% endif %}
 
