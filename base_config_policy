@@ -1,0 +1,387 @@
+base_policy:
+  - set event-options policy raise-trap-on-bgp-prefix-limit events bgp_prefix_limit_exceeded
+  - set event-options policy raise-trap-on-bgp-prefix-limit events bgp_prefix_thresh_exceeded
+  - set event-options policy raise-trap-on-bgp-prefix-limit then raise-trap
+  - set event-options policy log-ospf events rpd_*
+  - set event-options policy log-ospf then priority-override severity error
+  - set event-options policy log-commit events ui_commit_progress
+  - set event-options policy log-commit then priority-override severity info
+  - set event-options policy log-protocol-recovery events rpd_bgp_neighbor_state_changed
+  - set event-options policy log-protocol-recovery events rpd_ospf_nbrup
+  - set event-options policy log-protocol-recovery events bfdd_trap_mhop_state_up
+  - set event-options policy log-protocol-recovery events bfdd_trap_shop_state_up
+  - set event-options policy log-protocol-recovery events bfdd_trap_state_up
+  - set event-options policy log-protocol-recovery events rpd_ldp_nbrup
+  - set event-options policy log-protocol-recovery events rpd_ldp_sessionup
+  - set event-options policy log-protocol-recovery then priority-override severity notice
+  - set event-options policy log-interactive events ui_cfg_audit_other
+  - set event-options policy log-interactive then priority-override severity info
+  - set event-options policy log-bgp-prefix-limit events bgp_prefix_limit_exceeded
+  - set event-options policy log-bgp-prefix-limit events bgp_prefix_thresh_exceeded
+  - set event-options policy log-bgp-prefix-limit then raise-trap
+  - set policy-options prefix-list ksynth-export 208.118.225.96/28
+  - set policy-options prefix-list prefix-public-dmz 208.118.225.96/28
+  - set policy-options prefix-list vlan5_prefix 10.224.236.0/28
+  - set policy-options prefix-list rbn-core-network 104.241.192.205/32
+  - set policy-options prefix-list rbn-core-network 185.69.128.0/22
+  - set policy-options prefix-list bgp-v4-transit-import-ntt-localpref-80
+  - set policy-options prefix-list bgp-v4-transit-import-ntt-localpref-90
+  - set policy-options prefix-list bgp-v4-transit-import-ntt-localpref-110
+  - set policy-options prefix-list bgp-v4-transit-import-ntt-localpref-120
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-lowmed
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-normalmed
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-highmed 84.39.142.0/24
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-highmed 104.241.192.0/20
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-highmed 185.69.128.0/22
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-highmed 185.146.68.0/24
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-highmed 185.146.71.0/24
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-highmed 203.190.56.0/21
+  - set policy-options prefix-list bgp-v4-transit-export-ntt-highmed 204.87.189.0/24
+  - set policy-options prefix-list bgp-v6-transit-export-ntt-lowmed
+  - set policy-options prefix-list bgp-v6-transit-export-ntt-normalmed
+  - set policy-options prefix-list bgp-v6-transit-export-ntt-highmed
+  - set policy-options prefix-list bgp-v6-transit-export-all-lowmed
+  - set policy-options prefix-list bgp-v6-transit-export-all-normalmed 2602:260::/32
+  - set policy-options prefix-list bgp-v6-transit-export-all-normalmed 2620:cb:8000::/48
+  - set policy-options prefix-list bgp-v6-transit-export-all-normalmed 2a05:2200::/29
+  - set policy-options prefix-list bgp-v6-transit-export-all-normalmed 2a07:4e40::/29
+  - set policy-options prefix-list bgp-v6-transit-export-all-highmed
+  - set policy-options prefix-list bgp-v6-transit-import-ntt-localpref-80
+  - set policy-options prefix-list bgp-v6-transit-import-ntt-localpref-90
+  - set policy-options prefix-list bgp-v6-transit-import-ntt-localpref-110
+  - set policy-options prefix-list bgp-v6-transit-import-ntt-localpref-120
+  - set policy-options prefix-list bgp-v4-transit-export-all-normalmed 84.39.142.0/24
+  - set policy-options prefix-list bgp-v4-transit-export-all-normalmed 104.241.192.0/20
+  - set policy-options prefix-list bgp-v4-transit-export-all-normalmed 185.69.128.0/22
+  - set policy-options prefix-list bgp-v4-transit-export-all-normalmed 185.146.68.0/24
+  - set policy-options prefix-list bgp-v4-transit-export-all-normalmed 185.146.71.0/24
+  - set policy-options prefix-list bgp-v4-transit-export-all-normalmed 203.190.56.0/21
+  - set policy-options prefix-list bgp-v4-transit-export-all-normalmed 204.87.189.0/24
+  - set policy-options prefix-list bgp-v4-transit-export-all-highmed
+  - set policy-options prefix-list bgp-v4-transit-export-all-lowmed
+  - set policy-options prefix-list rbn-loopbacks 185.69.128.0/24
+  - set policy-options prefix-list router-ipv4 apply-path "interfaces <*> unit <*> family inet address <*>"
+  - set policy-options prefix-list bgp-neighbors apply-path "protocols bgp group <*> neighbor <*>"
+  - set policy-options prefix-list ospf 224.0.0.5/32
+  - set policy-options prefix-list ospf 224.0.0.6/32
+  - set policy-options prefix-list rfc1918 10.0.0.0/8
+  - set policy-options prefix-list rfc1918 172.16.0.0/12
+  - set policy-options prefix-list rfc1918 192.168.0.0/16
+  - set policy-options prefix-list rip 224.0.0.9/32
+  - set policy-options prefix-list vrrp 224.0.0.18/32
+  - set policy-options prefix-list multicast-all-routers 224.0.0.2/32
+  - set policy-options prefix-list router-ipv4-logical-systms apply-path "logical-systems <*> interfaces <*> unit <*> family inet address <*>"
+  - set policy-options prefix-list bgp-neighbors-logical-systems apply-path "logical-systems <*> protocols bgp group <*> neighbor <*>"
+  - set policy-options prefix-list radius-servers apply-path "system radius-server <*>"
+  - set policy-options prefix-list tacas-servers apply-path "system tacplus-server <*>"
+  - set policy-options prefix-list ntp-server apply-path "system ntp server <*>"
+  - set policy-options prefix-list snmp-client-lists apply-path "snmp client-list <*> <*>"
+  - set policy-options prefix-list snmp-community-clients apply-path "snmp community <*> clients <*>"
+  - set policy-options prefix-list localhost 127.0.0.1/32
+  - set policy-options prefix-list ntp-server-peers apply-path "system ntp peer <*>"
+  - set policy-options prefix-list dns-servers apply-path "system name-server <*>"
+  - set policy-options prefix-list iccp 185.69.128.0/24
+  - set policy-options prefix-list loopback apply-path "interfaces lo0 unit 0 family inet address <*>"
+  - set policy-options prefix-list kentik-nosend 0.0.0.0/0
+  - set policy-options prefix-list router-ipv6 apply-path "interfaces <*> unit <*> family inet6 address <*>"
+  - set policy-options prefix-list neighbor-ipv6 apply-path "protocols bgp group <*-v6> neighbor <*>"
+  - set policy-options prefix-list neighbor-ipv6-instance apply-path "routing-instances <*> protocols bgp group <*-v6> neighbor <*>"
+  - set policy-options prefix-list management-sources 172.0.0.0/8
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-world from community action-localpref-80-world
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-world then local-preference 80
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-world then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-world from community action-localpref-90-world
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-world then local-preference 90
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-world then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-world from community action-localpref-110-world
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-world then local-preference 110
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-world then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-world from community action-localpref-120-world
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-world then local-preference 120
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-world then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-continent from community action-localpref-80-continent
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-continent then local-preference 80
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-continent then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-continent from community action-localpref-90-continent
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-continent then local-preference 90
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-continent then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-continent from community action-localpref-110-continent
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-continent then local-preference 110
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-continent then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-continent from community action-localpref-120-continent
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-continent then local-preference 120
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-continent then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-region from community action-localpref-80-region
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-region then local-preference 80
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-region then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-region from community action-localpref-90-region
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-region then local-preference 90
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-region then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-region from community action-localpref-110-region
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-region then local-preference 110
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-region then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-region from community action-localpref-120-region
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-region then local-preference 120
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-region then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-site from community action-localpref-80-site
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-site then local-preference 80
+  - set policy-options policy-statement bgp-action-policy term action-localpref-80-site then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-site from community action-localpref-90-site
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-site then local-preference 90
+  - set policy-options policy-statement bgp-action-policy term action-localpref-90-site then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-site from community action-localpref-110-site
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-site then local-preference 110
+  - set policy-options policy-statement bgp-action-policy term action-localpref-110-site then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-site from community action-localpref-120-site
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-site then local-preference 120
+  - set policy-options policy-statement bgp-action-policy term action-localpref-120-site then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-reject-world from community action-reject-world
+  - set policy-options policy-statement bgp-action-policy term action-reject-world then default-action reject
+  - set policy-options policy-statement bgp-action-policy term action-accept-continent from community action-accept-continent
+  - set policy-options policy-statement bgp-action-policy term action-accept-continent then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-reject-continent from community action-reject-continent
+  - set policy-options policy-statement bgp-action-policy term action-reject-continent then default-action reject
+  - set policy-options policy-statement bgp-action-policy term action-accept-region from community action-accept-region
+  - set policy-options policy-statement bgp-action-policy term action-accept-region then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-reject-region from community action-reject-region
+  - set policy-options policy-statement bgp-action-policy term action-reject-region then default-action reject
+  - set policy-options policy-statement bgp-action-policy term action-accept-site from community action-accept-site
+  - set policy-options policy-statement bgp-action-policy term action-accept-site then default-action accept
+  - set policy-options policy-statement bgp-action-policy term action-reject-site from community action-reject-site
+  - set policy-options policy-statement bgp-action-policy term action-reject-site then default-action reject
+  - set policy-options policy-statement bgp-delete-rbn-action-communities term delete-action then community delete rbn-action-communities
+  - set policy-options policy-statement bgp-delete-rbn-all-communities term delete-all then community delete rbn-all-communities
+  - set policy-options policy-statement bgp-delete-rbn-info-communities term delete-info then community delete rbn-info-communities
+  - set policy-options policy-statement bgp-deny-all then reject
+  - set policy-options policy-statement bgp-v4-kentik-out term 5 from prefix-list kentik-nosend
+  - set policy-options policy-statement bgp-v4-kentik-out term 5 then reject
+  - set policy-options policy-statement bgp-v4-kentik-out then accept
+  - set policy-options policy-statement bgp-v4-ksynth-export term 10 from prefix-list-filter ksynth-export orlonger
+  - set policy-options policy-statement bgp-v4-ksynth-export term 10 then accept
+  - set policy-options policy-statement bgp-v4-ksynth-export term 20 then reject
+  - set policy-options policy-statement bgp-v4-transit-all-export term lowmed from protocol static
+  - set policy-options policy-statement bgp-v4-transit-all-export term lowmed from protocol ospf
+  - set policy-options policy-statement bgp-v4-transit-all-export term lowmed from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-all-export term lowmed from prefix-list-filter bgp-v4-transit-export-all-lowmed exact
+  - set policy-options policy-statement bgp-v4-transit-all-export term lowmed then metric 80
+  - set policy-options policy-statement bgp-v4-transit-all-export term lowmed then accept
+  - set policy-options policy-statement bgp-v4-transit-all-export term normalmed from protocol static
+  - set policy-options policy-statement bgp-v4-transit-all-export term normalmed from protocol ospf
+  - set policy-options policy-statement bgp-v4-transit-all-export term normalmed from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-all-export term normalmed from prefix-list-filter bgp-v4-transit-export-all-normalmed exact
+  - set policy-options policy-statement bgp-v4-transit-all-export term normalmed then metric 100
+  - set policy-options policy-statement bgp-v4-transit-all-export term normalmed then accept
+  - set policy-options policy-statement bgp-v4-transit-all-export term highmed from protocol static
+  - set policy-options policy-statement bgp-v4-transit-all-export term highmed from protocol ospf
+  - set policy-options policy-statement bgp-v4-transit-all-export term highmed from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-all-export term highmed from prefix-list-filter bgp-v4-transit-export-all-highmed exact
+  - set policy-options policy-statement bgp-v4-transit-all-export term highmed then metric 120
+  - set policy-options policy-statement bgp-v4-transit-all-export term highmed then accept
+  - set policy-options policy-statement bgp-v4-transit-all-export term reject then default-action reject
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term lowmed from protocol static
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term lowmed from protocol ospf
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term lowmed from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term lowmed from prefix-list-filter bgp-v4-transit-export-ntt-lowmed exact
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term lowmed then metric 80
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term lowmed then accept
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term normalmed from protocol static
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term normalmed from protocol ospf
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term normalmed from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term normalmed from prefix-list-filter bgp-v4-transit-export-ntt-normalmed exact
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term normalmed then metric 100
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term normalmed then accept
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term highmed from protocol static
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term highmed from protocol ospf
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term highmed from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term highmed from prefix-list-filter bgp-v4-transit-export-ntt-highmed exact
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term highmed then metric 120
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term highmed then as-path-prepend "54058 54058 54058 54058"
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term highmed then accept
+  - set policy-options policy-statement bgp-v4-transit-ntt-export term reject then default-action reject
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-80 from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-80 from prefix-list-filter bgp-v4-transit-import-ntt-localpref-80 exact
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-80 then local-preference 80
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-80 then default-action accept
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-90 from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-90 from prefix-list-filter bgp-v4-transit-import-ntt-localpref-90 exact
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-90 then local-preference 90
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-90 then default-action accept
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-110 from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-110 from prefix-list-filter bgp-v4-transit-import-ntt-localpref-110 exact
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-110 then local-preference 110
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-110 then default-action accept
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-120 from protocol bgp
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-120 from prefix-list-filter bgp-v4-transit-import-ntt-localpref-120 exact
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-120 then local-preference 120
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term localpref-120 then default-action accept
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term set-metric then metric 50
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term set-metric then default-action accept
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term set-local-preference then local-preference 50
+  - set policy-options policy-statement bgp-v4-transit-ntt-import term set-local-preference then default-action accept
+  - set policy-options policy-statement bgp-v6-transit-all-export term lowmed from protocol static
+  - set policy-options policy-statement bgp-v6-transit-all-export term lowmed from protocol ospf
+  - set policy-options policy-statement bgp-v6-transit-all-export term lowmed from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-all-export term lowmed from prefix-list-filter bgp-v6-transit-export-all-lowmed exact
+  - set policy-options policy-statement bgp-v6-transit-all-export term lowmed then metric 80
+  - set policy-options policy-statement bgp-v6-transit-all-export term lowmed then accept
+  - set policy-options policy-statement bgp-v6-transit-all-export term normalmed from protocol static
+  - set policy-options policy-statement bgp-v6-transit-all-export term normalmed from protocol ospf
+  - set policy-options policy-statement bgp-v6-transit-all-export term normalmed from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-all-export term normalmed from prefix-list-filter bgp-v6-transit-export-all-normalmed exact
+  - set policy-options policy-statement bgp-v6-transit-all-export term normalmed then metric 100
+  - set policy-options policy-statement bgp-v6-transit-all-export term normalmed then accept
+  - set policy-options policy-statement bgp-v6-transit-all-export term highmed from protocol static
+  - set policy-options policy-statement bgp-v6-transit-all-export term highmed from protocol ospf
+  - set policy-options policy-statement bgp-v6-transit-all-export term highmed from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-all-export term highmed from prefix-list-filter bgp-v6-transit-export-all-highmed exact
+  - set policy-options policy-statement bgp-v6-transit-all-export term highmed then metric 120
+  - set policy-options policy-statement bgp-v6-transit-all-export term highmed then accept
+  - set policy-options policy-statement bgp-v6-transit-all-export term reject then default-action reject
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term lowmed from protocol static
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term lowmed from protocol ospf
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term lowmed from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term lowmed from prefix-list-filter bgp-v6-transit-export-ntt-lowmed exact
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term lowmed then metric 80
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term lowmed then accept
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term normalmed from protocol static
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term normalmed from protocol ospf
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term normalmed from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term normalmed from prefix-list-filter bgp-v6-transit-export-ntt-normalmed exact
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term normalmed then metric 100
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term normalmed then accept
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term highmed from protocol static
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term highmed from protocol ospf
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term highmed from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term highmed from prefix-list-filter bgp-v6-transit-export-ntt-highmed exact
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term highmed then metric 120
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term highmed then accept
+  - set policy-options policy-statement bgp-v6-transit-ntt-export term reject then default-action reject
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-80 from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-80 from prefix-list-filter bgp-v6-transit-import-ntt-localpref-80 exact
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-80 then local-preference 80
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-80 then default-action accept
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-90 from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-90 from prefix-list-filter bgp-v6-transit-import-ntt-localpref-90 exact
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-90 then local-preference 90
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-90 then default-action accept
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-110 from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-110 from prefix-list-filter bgp-v6-transit-import-ntt-localpref-110 exact
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-110 then local-preference 110
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-110 then default-action accept
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-120 from protocol bgp
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-120 from prefix-list-filter bgp-v6-transit-import-ntt-localpref-120 exact
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-120 then local-preference 120
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term localpref-120 then default-action accept
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term set-metric then metric 0
+  - set policy-options policy-statement bgp-v6-transit-ntt-import term set-metric then default-action accept
+  - set policy-options policy-statement export-direct term export-direct from protocol direct
+  - set policy-options policy-statement export-direct term export-direct then default-action accept
+  - set policy-options policy-statement export-internet term 1 from instance internet
+  - set policy-options policy-statement export-internet term 1 then accept
+  - deactivate policy-options policy-statement export-internet
+  - set policy-options policy-statement export-public-dmz term 1 from prefix-list-filter prefix-public-dmz orlonger
+  - set policy-options policy-statement export-public-dmz term 1 then accept
+  - set policy-options policy-statement export-rd term 1 from route-distinguisher cr2-internet-rd
+  - set policy-options policy-statement export-rd term 1 then accept
+  - set policy-options policy-statement export-static term export-static from protocol static
+  - set policy-options policy-statement export-static term export-static then default-action accept
+  - set policy-options policy-statement export_prepend_as from prefix-list vlan5_prefix
+  - set policy-options policy-statement export_prepend_as then as-path-prepend 65501
+  - set policy-options policy-statement next-hop-self then next-hop self
+  - set policy-options policy-statement nobogons term nomulticast from route-filter 224.0.0.0/4 orlonger reject
+  - set policy-options policy-statement nobogons term norfc1918 from prefix-list-filter rfc1918 orlonger
+  - set policy-options policy-statement nobogons term norfc1918 then reject
+  - set policy-options policy-statement nobogons-v6 term unspecified from route-filter ::/128 exact
+  - set policy-options policy-statement nobogons-v6 term unspecified then reject
+  - set policy-options policy-statement nobogons-v6 term loopbacks from route-filter ::1/128 exact
+  - set policy-options policy-statement nobogons-v6 term loopbacks then reject
+  - set policy-options policy-statement nobogons-v6 term ipv4mapped from route-filter ::ffff:0.0.0.0/96 orlonger
+  - set policy-options policy-statement nobogons-v6 term ipv4mapped then reject
+  - set policy-options policy-statement nobogons-v6 term ipv4compatible from route-filter ::/96 orlonger
+  - set policy-options policy-statement nobogons-v6 term ipv4compatible then reject
+  - set policy-options policy-statement nobogons-v6 term lla from route-filter fe80::/10 orlonger
+  - set policy-options policy-statement nobogons-v6 term lla then reject
+  - set policy-options policy-statement nobogons-v6 term sla from route-filter fec0::/10 orlonger
+  - set policy-options policy-statement nobogons-v6 term sla then reject
+  - set policy-options policy-statement nobogons-v6 term ula from route-filter fc00::/7 orlonger
+  - set policy-options policy-statement nobogons-v6 term ula then reject
+  - set policy-options policy-statement nobogons-v6 term multicast from route-filter ff00::/8 orlonger
+  - set policy-options policy-statement nobogons-v6 term multicast then reject
+  - set policy-options policy-statement nobogons-v6 term documentation from route-filter 2001:db8::/32 orlonger
+  - set policy-options policy-statement nobogons-v6 term documentation then reject
+  - set policy-options policy-statement nobogons-v6 term sixbone from route-filter 3ffe::/16 orlonger
+  - set policy-options policy-statement nobogons-v6 term sixbone then reject
+  - set policy-options policy-statement nobogons-v6 term sixbone-2 from route-filter 5f00::/8 orlonger
+  - set policy-options policy-statement nobogons-v6 term sixbone-2 then reject
+  - set policy-options policy-statement nobogons-v6 term orchid from route-filter 2001:10::/28 orlonger
+  - set policy-options policy-statement nobogons-v6 term orchid then reject
+  - set policy-options policy-statement nodefault from route-filter 0.0.0.0/0 exact
+  - set policy-options policy-statement nodefault then reject
+  - set policy-options policy-statement nodefault-v6 from route-filter ::/0 exact
+  - set policy-options policy-statement nodefault-v6 then reject
+  - set policy-options policy-statement noprivateasns from as-path private
+  - set policy-options policy-statement noprivateasns then reject
+  - set policy-options policy-statement nosmallprefixes from route-filter 0.0.0.0/0 prefix-length-range /25-/32 reject
+  - set policy-options policy-statement nosmallprefixes-v6 from route-filter ::/0 prefix-length-range /49-/128 reject
+  - set policy-options policy-statement per-packet then load-balance per-packet
+  - set policy-options policy-statement pop-location-communities term pop-location then community add pop-location
+  - set policy-options policy-statement send-direct term 1 from protocol direct
+  - set policy-options policy-statement send-direct term 1 then accept
+  - set policy-options policy-statement send-static term send-static from protocol static
+  - set policy-options policy-statement send-static term send-static then default-action accept
+  - set policy-options policy-statement vrf-export-mgmt term set-target then community add vrf-mgmt
+  - set policy-options policy-statement vrf-export-mgmt term set-target then default-action accept
+  - set policy-options policy-statement vrf-export-rakuten-intra term set-target then community add vrf-rakuten-intra
+  - set policy-options policy-statement vrf-export-rakuten-intra term set-target then default-action accept
+  - set policy-options policy-statement vrf-export-rakuten-jp term set-target then community add vrf-rakuten-jp
+  - set policy-options policy-statement vrf-export-rakuten-jp term set-target then default-action accept
+  - set policy-options community action-accept-continent members "^54058:1510$"
+  - set policy-options community action-accept-region members "^54058:1516$"
+  - set policy-options community action-accept-site members "^54058:2502$"
+  - set policy-options community action-accept-world members "^54058:1500$"
+  - set policy-options community action-localpref-110-continent members "^54058:1310$"
+  - set policy-options community action-localpref-110-region members "^54058:1316$"
+  - set policy-options community action-localpref-110-site members "^54058:2302$"
+  - set policy-options community action-localpref-110-world members "^54058:1300$"
+  - set policy-options community action-localpref-120-continent members "^54058:1410$"
+  - set policy-options community action-localpref-120-region members "^54058:1416$"
+  - set policy-options community action-localpref-120-site members "^54058:2402$"
+  - set policy-options community action-localpref-120-world members "^54058:1400$"
+  - set policy-options community action-localpref-80-continent members "^54058:1110$"
+  - set policy-options community action-localpref-80-region members "^54058:1116$"
+  - set policy-options community action-localpref-80-site members "^54058:2102$"
+  - set policy-options community action-localpref-80-world members "^54058:1100$"
+  - set policy-options community action-localpref-90-continent members "^54058:1210$"
+  - set policy-options community action-localpref-90-region members "^54058:1216$"
+  - set policy-options community action-localpref-90-site members "^54058:2202$"
+  - set policy-options community action-localpref-90-world members "^54058:1200$"
+  - set policy-options community action-reject-continent members "^54058:1610$"
+  - set policy-options community action-reject-region members "^54058:1616$"
+  - set policy-options community action-reject-site members "^54058:2602$"
+  - set policy-options community action-reject-world members "^54058:1600$"
+  - set policy-options community all-communities members 54058:*
+  - set policy-options community no-advertise members no-advertise
+  - set policy-options community pop-location members 54058:12212
+  - set policy-options community rbn-action-communities members "^54058:.{4}$"
+  - set policy-options community rbn-all-communities members "^54058:*$"
+  - set policy-options community rbn-info-communities members "^54058:.{5}$"
+  - set policy-options community vrf-bdd members target:54058:100
+  - set policy-options community vrf-export-mgmt members target:54058:16
+  - set policy-options community vrf-kobo-prod members target:54058:111
+  - set policy-options community vrf-mgmt members target:54058:16
+  - set policy-options community vrf-openstack-coriolis members target:54058:199
+  - set policy-options community vrf-rakops-services members target:54058:105
+  - set policy-options community vrf-rakuten-france members target:54058:114
+  - set policy-options community vrf-rakuten-intra members target:54058:102
+  - set policy-options community vrf-rakuten-jp members target:54058:101
+  - set policy-options community vrf-rakuten-marketing members target:54058:108
+  - set policy-options community vrf-rbn-mgmt members target:54058:3
+  - set policy-options community vrf-rsp members target:54058:104
+  - set policy-options route-distinguisher cr2-internet-rd members 208.118.225.99:99
+  - set policy-options as-path private 64512-65535
+  - set firewall family inet prefix-action management-police-set apply-flags omit
+  - set firewall family inet prefix-action management-police-set policer management-10k
+  - set firewall family inet prefix-action management-police-set count
+  - set firewall policer management-5m if-exceeding bandwidth-limit 5m
+  - set firewall policer management-5m if-exceeding burst-size-limit 625k
+  - set firewall policer management-5m then discard
