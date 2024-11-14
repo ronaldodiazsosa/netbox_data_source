@@ -1,8 +1,0 @@
-base_service:  
-  - set services flow-monitoring version-ipfix template ipv4 flow-active-timeout 60
-  - set services flow-monitoring version-ipfix template ipv4 flow-inactive-timeout 70
-  - set services flow-monitoring version-ipfix template ipv4 template-refresh-rate packets 30
-  - set services flow-monitoring version-ipfix template ipv4 template-refresh-rate seconds 60
-  - set services flow-monitoring version-ipfix template ipv4 option-refresh-rate packets 30
-  - set services flow-monitoring version-ipfix template ipv4 option-refresh-rate seconds 30
-  - set services flow-monitoring version-ipfix template ipv4 ipv4-template
