@@ -2,10 +2,6 @@
 
 {# Services template #}
 
-set system services ssh sftp-server
-set system services telnet
-set system services netconf ssh port 830
-
 {% for service in ("ipam.Service", {"tags": 8, "name": "DNS"}) | get_extra_data %}
 {% for ip in service.ipaddresses.all() %}
 set system name-server {{ (ip.address | string).split('/')[0] }} routing-instance mgmt_junos

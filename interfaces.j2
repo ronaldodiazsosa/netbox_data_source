@@ -39,7 +39,7 @@ set interfaces {{ interface.name }} speed {{ speed_g }}g
 {% endif %}
 {% endif %}
 
-{# mtu configuration}
+{# mtu configuration #}
 {% if interface.mtu %}
 set interfaces {{ interface.name }} mtu {{ interface.mtu }}
 {%   endif %}
