@@ -21,8 +21,8 @@ set protocols ospf area 0.0.0.0 interface {{ interface.name }} metric {{ ospf_pa
 {% endif %}
 
 {% if key == 'bfd_liveness_detection' %}
-set protocols ospf area 0.0.0.0 interface {{ interface.name }} bfd-liveness-detection minimum-interval {{ ospf_parameter.multiplier }}
-set protocols ospf area 0.0.0.0 interface {{ interface.name }} bfd-liveness-detection multiplier {{ ospf_parameter.minimum_interval }}
+set protocols ospf area 0.0.0.0 interface {{ interface.name }} bfd-liveness-detection minimum-interval {{ ospf_parameter.minimum_interval }}
+set protocols ospf area 0.0.0.0 interface {{ interface.name }} bfd-liveness-detection multiplier {{ ospf_parameter.multiplier }}
 {% endif %}
 
 {% if key == 'interface_type' %}
