@@ -76,34 +76,34 @@ set interfaces {{interface.name }} family mpls
 
 {# configure logical interface description #}
 {% if interface.description %}
-set interfaces {{ interface.name }} description "{{ interface.description }}"
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }} description "{{ interface_unit_list[0].description }}"
 {% endif %}
 {# disable interface if not enabled #}
 {% if not interface.enabled %}
-set interfaces {{ interface.name }} disable
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }} disable
 {% endif -%}
 
 {# configure vlan id #}
 {% if interface_unit_list[1] != '0' and interface.type.value != "virtual" %}
-set interfaces {{interface.name }} vlan-id {{ interface_unit_list[1] }}
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }}  vlan-id {{ interface_unit_list[1] }}
 {%     endif %}
 
 {# configure mtu id #}
 {% if interface.mtu %}
-set interfaces {{ interface.name }} family inet mtu {{ interface.mtu }}
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }}  family inet mtu {{ interface.mtu }}
 {%   endif %}
 
 {# Configure ip addresses #}
 {% for ip_address in interface.ip_addresses.all() %}
 {% if ip_address.family == 4 %}
 {% if ip_address.is_primary_ip %}
-set interfaces {{ interface.name }} family inet address {{ ip_address.address }} primary
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }}  family inet address {{ ip_address.address }} primary
 {% else %}
-set interfaces {{ interface.name }} family inet address {{ ip_address.address }}
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }}  family inet address {{ ip_address.address }}
 {% endif %}
 
 {% elif ip_address.family == 6 %}
-set interfaces {{ interface.name }} family inet6 address {{ ip_address.address }}
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }}  family inet6 address {{ ip_address.address }}
 {% endif %}
 
 {% endfor %}
@@ -112,23 +112,23 @@ set interfaces {{ interface.name }} family inet6 address {{ ip_address.address }
 
 {% set mpls_tag = interface.tags.all() | selectattr('name', 'equalto', 'MPLS') | list | length > 0 %}
 {%   if mpls_tag %}
-set interfaces {{interface.name }} family mpls
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }} family mpls
 {%  endif %}
 
 
 {% set sampling_ipv4 = interface.tags.all() | selectattr('name', 'equalto', 'sampling_ipv4') | list | length > 0 %}
 {%   if sampling_ipv4 %}
-set interfaces {{interface.name }} family inet sampling input
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }} family inet sampling input
 {%  endif %}
 {% set sampling_ipv6 = interface.tags.all() | selectattr('name', 'equalto', 'sampling_ipv6') | list | length > 0 %}
 {%   if sampling_ipv6 %}
-set interfaces {{interface.name }} family inet6 sampling input
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }} family inet6 sampling input
 {%  endif %}
 
 {# configure extra attributes #}
 {% set corero_tag = interface.tags.all() | selectattr('name', 'equalto', 'Corero') | list | length > 0 %}
 {%   if corero_tag %}
-set interfaces {{interface.name }} unit 0 family inet filter input CORERO-MITIGATE
+set interfaces {{ interface_unit_list[0] }} unit {{ interface_unit_list[1] }} unit 0 family inet filter input CORERO-MITIGATE
 {%  endif %}
 
 

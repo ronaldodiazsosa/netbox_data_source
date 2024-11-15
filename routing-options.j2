@@ -1,4 +1,5 @@
 {% block routing_options %}
+
 {% if device.custom_field_data['ASN'] %}
 set routing-options autonomous-system {{ (("ipam.asn", {"id": device.custom_field_data['ASN'] }) | get_extra_data)[0].asn }}
 {% endif %}
