@@ -8,7 +8,6 @@ set snmp community R4kU8en clients 172.20.0.0/16
 set snmp community R4kU8en clients 10.224.0.0/14
 set snmp community R4kU8en clients 209.50.158.0/23
 set snmp community R4kU8en routing-instance mgmt_junos clients 172.20.0.0/16
-set snmp trap-options routing-instance mgmt_junos source-address {{ (device.primary_ip.address | string).split('/')[0] }}
 set snmp trap-group librenms version v2
 set snmp trap-group librenms categories chassis
 set snmp trap-group librenms categories link
