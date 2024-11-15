@@ -7,7 +7,7 @@
 {%- include 'services.j2' -%}
 
 {% for line in base_chassis_configuration_context %}
-{{ base_chassis_configuration_context }}
+{{ line }}
 {% endfor %}
 
 {%- include 'interfaces.j2' -%}
