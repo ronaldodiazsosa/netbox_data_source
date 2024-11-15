@@ -1,4 +1,4 @@
-base_chassis_configuration: 
+base_chassis_configuration_context: 
   - set chassis aggregated-devices ethernet device-count 10
   - set chassis fpc 0 pic 0 tunnel-services bandwidth 10g
   - set chassis fpc 0 pic 0 port 0 speed 100g
