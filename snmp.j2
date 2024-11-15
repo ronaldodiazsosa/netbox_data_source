@@ -1,0 +1,28 @@
+{% block snmp %}
+
+{# snmp template #}
+
+set snmp location "Boston, Massachusetts, United States"
+set snmp community R4kU8en authorization read-only
+set snmp community R4kU8en clients 172.20.0.0/16
+set snmp community R4kU8en clients 10.224.0.0/14
+set snmp community R4kU8en clients 209.50.158.0/23
+set snmp community R4kU8en routing-instance mgmt_junos clients 172.20.0.0/16
+set snmp trap-options routing-instance mgmt_junos source-address {{ (device.primary_ip.address | string).split('/')[0] }}
+set snmp trap-group librenms version v2
+set snmp trap-group librenms categories chassis
+set snmp trap-group librenms categories link
+set snmp trap-group librenms categories routing
+set snmp trap-group librenms categories vrrp-events
+set snmp trap-group librenms targets 172.20.232.110
+set snmp trap-group librenms routing-instance mgmt_junos
+set snmp trap-group shinken version v2
+set snmp trap-group shinken categories chassis
+set snmp trap-group shinken categories link
+set snmp trap-group shinken categories routing
+set snmp trap-group shinken categories vrrp-events
+set snmp trap-group shinken targets 172.20.232.106
+set snmp trap-group shinken routing-instance mgmt_junos
+set snmp routing-instance-access access-list mgmt_junos
+
+{% endblock %}
