@@ -22,12 +22,12 @@
 
 {%- include 'firewall.j2' -%}
 
-{# include 'routing-instances.j2' #}
+{% include 'routing-instances.j2' %}
 
 {% include 'routing-options.j2' %}
 
 {%- include 'protocols.j2' -%}
 
-{# include 'bridge-domains.j2' #}
+{% include 'bridge-domains.j2' %}
 
 {% endfilter %}
