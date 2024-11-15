@@ -6,24 +6,22 @@ set system services ssh sftp-server
 set system services telnet
 set system services netconf ssh port 830
 
-{% for service in ("ipam.Service", {"tags": 8}) | get_extra_data %}
-
-{% if 53 in service.ports %}
+{% for service in ("ipam.Service", {"tags": 8, "name": "DNS"}) | get_extra_data %}
 {% for ip in service.ipaddresses.all() %}
 set system name-server {{ (ip.address | string).split('/')[0] }} routing-instance mgmt_junos
 {% endfor %}
-{% endif %}
+{% endfor %}
 
-{% if 49 in service.ports %}
+{% for service in ("ipam.Service", {"tags": 8, "name": "TACACS"}) | get_extra_data %}
 {% for ip in service.ipaddresses.all() %}
 set system tacplus-server {{ (ip.address | string).split('/')[0] }} routing-instance mgmt_junos
 set system tacplus-server {{ (ip.address | string).split('/')[0] }} port 49
 set system tacplus-server {{ (ip.address | string).split('/')[0] }} secret "$9$UwHPQ/Cu01hqmORSlW8XxNdVs4aGUi.vWLNVbaJjHq"
 set system tacplus-server {{ (ip.address | string).split('/')[0] }} source-address {{ (device.primary_ip.address | string).split('/')[0] }}
 {% endfor %}
-{% endif %}
+{% endfor %}
 
-{% if 514 in service.ports %}
+{% for service in ("ipam.Service", {"tags": 8, "name": "SYSLOG"}) | get_extra_data %}
 {% for ip in service.ipaddresses.all() %}
 set system syslog user * any emergency
 set system syslog host {{ (ip.address | string).split('/')[0] }} any warning
@@ -42,8 +40,6 @@ set system syslog file messages authorization info
 set system syslog time-format year
 set system syslog time-format millisecond
 {% endfor %}
-{% endif %}
-
 {% endfor %}
 
 {% endblock %}
