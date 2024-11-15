@@ -1,0 +1,21 @@
+base_event_options_context:
+  - set event-options policy raise-trap-on-bgp-prefix-limit events bgp_prefix_limit_exceeded
+  - set event-options policy raise-trap-on-bgp-prefix-limit events bgp_prefix_thresh_exceeded
+  - set event-options policy raise-trap-on-bgp-prefix-limit then raise-trap
+  - set event-options policy log-ospf events rpd_*
+  - set event-options policy log-ospf then priority-override severity error
+  - set event-options policy log-commit events ui_commit_progress
+  - set event-options policy log-commit then priority-override severity info
+  - set event-options policy log-protocol-recovery events rpd_bgp_neighbor_state_changed
+  - set event-options policy log-protocol-recovery events rpd_ospf_nbrup
+  - set event-options policy log-protocol-recovery events bfdd_trap_mhop_state_up
+  - set event-options policy log-protocol-recovery events bfdd_trap_shop_state_up
+  - set event-options policy log-protocol-recovery events bfdd_trap_state_up
+  - set event-options policy log-protocol-recovery events rpd_ldp_nbrup
+  - set event-options policy log-protocol-recovery events rpd_ldp_sessionup
+  - set event-options policy log-protocol-recovery then priority-override severity notice
+  - set event-options policy log-interactive events ui_cfg_audit_other
+  - set event-options policy log-interactive then priority-override severity info
+  - set event-options policy log-bgp-prefix-limit events bgp_prefix_limit_exceeded
+  - set event-options policy log-bgp-prefix-limit events bgp_prefix_thresh_exceeded
+  - set event-options policy log-bgp-prefix-limit then raise-trap

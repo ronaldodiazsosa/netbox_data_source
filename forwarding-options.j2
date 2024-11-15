@@ -1,0 +1,14 @@
+{% block forwarding_options %}
+
+{# forwarding_options template #}
+set forwarding-options sampling instance s1 input rate 10
+set forwarding-options sampling instance s1 family inet output flow-server 172.20.232.134 port 9995
+set forwarding-options sampling instance s1 family inet output flow-server 172.20.232.134 autonomous-system-type origin
+set forwarding-options sampling instance s1 family inet output flow-server 172.20.232.134 version-ipfix template ipv4
+set forwarding-options sampling instance s1 family inet output flow-server 208.76.14.247 port 20013
+set forwarding-options sampling instance s1 family inet output flow-server 208.76.14.247 autonomous-system-type origin
+deactivate forwarding-options sampling instance s1 family inet output flow-server 208.76.14.247 autonomous-system-type
+set forwarding-options sampling instance s1 family inet output flow-server 208.76.14.247 version-ipfix template ipv4
+set forwarding-options sampling instance s1 family inet output inline-jflow source-address 208.118.225.100
+
+{% endnblock %}

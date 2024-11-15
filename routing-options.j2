@@ -1,0 +1,9 @@
+{% block routing_options %}
+{% if device.custom_field_data['ASN'] %}
+set routing-options autonomous-system {{ device.custom_field_data['ASN'].asn}}
+{% endif %}
+set routing-options static route 0.0.0.0/0 next-hop 10.255.10.0
+set routing-options static route 10.224.236.0/28 discard
+set routing-options static route 208.118.225.104/29 next-hop 208.118.225.99
+
+{% endblock %}
