@@ -1,6 +1,6 @@
 {% block routing_options %}
 {% if device.custom_field_data['ASN'] %}
-set routing-options autonomous-system {{ device.custom_field_data['ASN'].asn}}
+set routing-options autonomous-system {{ (("ipam.asn", {"id": device.custom_field_data['ASN'] }) | get_extra_data)[0].asn }}
 {% endif %}
 set routing-options static route 0.0.0.0/0 next-hop 10.255.10.0
 set routing-options static route 10.224.236.0/28 discard
